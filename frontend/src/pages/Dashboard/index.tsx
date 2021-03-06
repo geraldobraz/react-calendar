@@ -1,4 +1,5 @@
 import React from 'react';
+import Calendar from '../../components/Calendar';
 import { Informations } from './styles';
 
 const Dashboard: React.FC = () => {
@@ -8,6 +9,7 @@ const Dashboard: React.FC = () => {
         <h3>Welcome,</h3>
         <p>Jobsity Calendar </p>
       </Informations>
+      <Calendar />
     </>
   );
 };
