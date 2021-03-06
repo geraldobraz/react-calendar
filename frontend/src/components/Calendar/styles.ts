@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import {
   $black,
   $blue,
+  $darkBlue,
   $lightestGray,
   $lightGray,
   $medBlue,
@@ -13,6 +14,10 @@ interface ICellProps {
   isToday: boolean;
   isWeekend: boolean;
   isWithinCurrentMonth: boolean;
+}
+
+interface IReminderProps {
+  color: string;
 }
 
 export const Container = styled.div`
@@ -65,13 +70,13 @@ export const WeekDays = styled.div`
   margin: 0;
   padding: 0;
   width: 100%;
-  background: #28587b;
-  color: #f3e9dc;
+  background: ${$darkBlue};
+  color: ${$white};
   border: transparent;
 `;
 
 export const WeekDay = styled.div`
-  border-right: 1px solid #120309;
+  border-right: 1px solid ${$black};
   flex-basis: 0;
   flex-grow: 1;
   justify-content: center;
@@ -140,4 +145,18 @@ export const CalendarCell = styled.div<ICellProps>`
   &:hover {
     border: 2px solid ${$blue};
   }
+`;
+
+export const ReminderItem = styled.button<IReminderProps>`
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+  border: none;
+
+  ${props => css`
+    background-color: ${props.color};
+  `}
 `;
