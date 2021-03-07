@@ -133,11 +133,13 @@ const Calendar: React.FC = () => {
 
   return (
     <Container>
-      <ReminderDialog
-        open={isReminderDialogOpened}
-        onClose={handleReminderDialogClose}
-        selectedReminder={selectedReminder}
-      />
+      {isReminderDialogOpened && (
+        <ReminderDialog
+          open={isReminderDialogOpened}
+          onClose={handleReminderDialogClose}
+          selectedReminder={selectedReminder}
+        />
+      )}
       <CalendarHeader>
         <MonthSelectorLeft onClick={handlePrevMonth}>
           <FiChevronLeft size={30} />

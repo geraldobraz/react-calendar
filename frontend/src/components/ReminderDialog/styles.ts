@@ -1,6 +1,6 @@
 import { DialogContent } from '@material-ui/core';
 import styled, { css } from 'styled-components';
-import { $black, $blue, $red, $whiteCultured } from '../../styles/colors';
+import { $black, $blue, $red } from '../../styles/colors';
 
 interface IDialogButtonProps {
   isCancel?: boolean;
@@ -8,7 +8,7 @@ interface IDialogButtonProps {
 }
 
 export const ReminderDialogContent = styled(DialogContent)`
-  background-color: ${$whiteCultured};
+  background-color: #d1d1d1;
   color: ${$black};
   display: flex;
   flex-direction: column;
@@ -45,8 +45,12 @@ export const ErrorMessage = styled.p`
 export const ReminderDialogDetails = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 36px;
+  margin-bottom: 16px;
   border-bottom: 1px solid;
+
+  span {
+    margin-bottom: 0;
+  }
 `;
 
 export const InputElement = styled.input`
@@ -95,19 +99,56 @@ export const LocationInput = styled.span`
   svg {
     margin-right: 16px;
   }
+
+  input {
+    text-transform: capitalize;
+  }
+`;
+
+export const WeatherForecastArea = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
+
+export const WeatherForecastTitle = styled.div`
+  font-size: 18px;
+`;
+
+export const Weather = styled.div`
+  display: flex;
+  margin-right: 18px;
+
+  img {
+    margin-right: 5px;
+  }
+`;
+
+export const TemperatureContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+export const Temperature = styled.div`
+  font-size: 35px;
+`;
+
+export const TemperatureDetails = styled.div`
+  font-size: 16px;
+  text-transform: capitalize;
 `;
 
 export const ActionSection = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 20px;
 `;
 
 export const DialogButton = styled.button<IDialogButtonProps>`
   border-radius: 10px;
   border: none;
-  margin: 5px;
   height: 42px;
+  margin: 5px;
   width: 100px;
 
   &:hover {

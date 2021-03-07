@@ -130,7 +130,7 @@ export const CalendarCell = styled.div<ICellProps>`
         align-items: center;
         background-color: ${$medBlue};
         border-radius: 50%;
-        color: ${$white};
+        color: #ffffff;
         display: flex;
         height: 25px;
         justify-content: center;
