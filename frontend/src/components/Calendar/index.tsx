@@ -23,10 +23,12 @@ import {
   MonthSelectorRight,
   WeekDays,
   ReminderItem,
+  Reminder,
 } from './styles';
 import { weekDays } from '../../utils/constants';
 import ReminderDialog from '../ReminderDialog';
 import { useStorage } from '../../hooks/storage';
+import { $lightGreen } from '../../styles/colors';
 
 interface ICell {
   day: number;
@@ -62,7 +64,7 @@ const Calendar: React.FC = () => {
     const defaultNewReminder: IReminder = {
       fullDate: cell.fullDate,
       city: '',
-      color: '#c8e9a0',
+      color: $lightGreen,
       title: '',
       time: format(cell.fullDate, 'HH:mm'),
       date: format(cell.fullDate, 'yyyy-MM-dd'),
@@ -170,13 +172,13 @@ const Calendar: React.FC = () => {
 
             {day?.reminders &&
               day.reminders.map(reminder => (
-                <ReminderItem
+                <Reminder
                   color={reminder.color}
                   key={reminder.id}
                   onClick={e => onReminderClick(e, reminder)}
                 >
                   {reminder.title} - {reminder.time}
-                </ReminderItem>
+                </Reminder>
               ))}
           </CalendarCell>
         ))}

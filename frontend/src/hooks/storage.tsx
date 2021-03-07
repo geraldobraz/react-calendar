@@ -19,7 +19,14 @@ interface StorageContextData {
   getStorage(): IHash;
   getStorageByKey(key: string): IReminder[];
   setItem(key: string, reminders: IReminder): void;
+  deleteReminderById(id: string, date: string): void;
+  deleteRemindersByDate(date: string): void;
 }
+
+const formatDate = (date: string): string => {
+  const [year, month, day] = date.split('-');
+  return `${day}${month}${year}`;
+};
 
 const StorageContext = createContext<StorageContextData>(
   {} as StorageContextData,
@@ -63,6 +70,27 @@ const StorageProvider: React.FC = ({ children }) => {
     setHash({ ...hash, ...newData });
   };
 
+  const deleteReminderById = (id: string, date: string): void => {
+    const formattedDate = formatDate(date);
+
+    const reminders = hash[formattedDate].filter(
+      reminder => reminder.id !== id,
+    );
+
+    const newData: IHash = {
+      [formattedDate]: reminders,
+    };
+    setHash({ ...hash, ...newData });
+  };
+
+  const deleteRemindersByDate = (date: string): void => {
+    const formattedDate = formatDate(date);
+    const copyHash = hash;
+    delete copyHash[formattedDate];
+
+    setHash({ ...hash, ...copyHash });
+  };
+
   return (
     <StorageContext.Provider
       value={{
@@ -70,6 +98,8 @@ const StorageProvider: React.FC = ({ children }) => {
         getStorage,
         getStorageByKey,
         setItem,
+        deleteReminderById,
+        deleteRemindersByDate,
       }}
     >
       {children}

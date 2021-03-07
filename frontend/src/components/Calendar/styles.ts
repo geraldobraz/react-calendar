@@ -7,6 +7,7 @@ import {
   $lightGray,
   $medBlue,
   $white,
+  $whiteCultured,
 } from '../../styles/colors';
 
 interface ICellProps {
@@ -71,7 +72,7 @@ export const WeekDays = styled.div`
   padding: 0;
   width: 100%;
   background: ${$darkBlue};
-  color: ${$white};
+  color: ${$whiteCultured};
   border: transparent;
 `;
 
@@ -147,7 +148,23 @@ export const CalendarCell = styled.div<ICellProps>`
   }
 `;
 
-export const ReminderItem = styled.button<IReminderProps>`
+export const RemindersList = styled.ul``;
+
+export const ReminderItem = styled.li`
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+  border: none;
+
+  ${props => css`
+    background-color: ${props.color};
+  `}
+`;
+
+export const Reminder = styled.button<IReminderProps>`
   display: flex;
   width: 100%;
   overflow: hidden;

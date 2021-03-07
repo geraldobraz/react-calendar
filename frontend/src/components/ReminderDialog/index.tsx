@@ -1,14 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Dialog } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import { FiMapPin } from 'react-icons/fi';
+import { FiMapPin, FiTrash2, FiX } from 'react-icons/fi';
+import { BiColorFill } from 'react-icons/bi';
 import { v4 as uuid } from 'uuid';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { closestTo, isEqual, isSameDay } from 'date-fns';
 import {
   ActionSection,
+  CloseDialogButton,
   ColorInput,
+  ColorPicker,
+  DeleteReminderButton,
   DialogButton,
   ErrorMessage,
   InputElement,
@@ -84,7 +88,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
   const { register, handleSubmit, errors } = useForm<IReminder>({
     resolver: yupResolver(schema),
   });
-  const { setItem } = useStorage();
+  const { setItem, deleteReminderById } = useStorage();
   const [weather, setWeather] = useState<IForecast>();
   const [dateInput, setDateInput] = useState<string>(selectedReminder.date);
   const [timeInput, setTimeInput] = useState<string>(selectedReminder.time);
@@ -143,6 +147,11 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
     [debouncedDateInput, debouncedTimeInput],
   );
 
+  const deleteReminder = (): void => {
+    deleteReminderById(selectedReminder.id, dateInput);
+    onClose();
+  };
+
   useEffect(() => {
     if (debouncedCityInput && debouncedDateInput && debouncedTimeInput) {
       weatherApi
@@ -177,12 +186,9 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
               />
               <ErrorMessage>{errors.title?.message}</ErrorMessage>
             </ReminderTitle>
-            <ColorInput
-              name="color"
-              type="color"
-              defaultValue={selectedReminder.color}
-              ref={register}
-            />
+            <CloseDialogButton type="button" onClick={onClose}>
+              <FiX size={30} />
+            </CloseDialogButton>
           </ReminderDialogHeader>
           <ReminderDialogDetails>
             <InputElement
@@ -210,6 +216,15 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
                 ref={register}
               />
             </LocationInput>
+            <ColorPicker>
+              <BiColorFill size={30} />
+              <ColorInput
+                name="color"
+                type="color"
+                defaultValue={selectedReminder.color}
+                ref={register}
+              />
+            </ColorPicker>
           </ReminderDialogDetails>
           {weather && (
             <WeatherForecastArea>
@@ -231,6 +246,11 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
             </WeatherForecastArea>
           )}
           <ActionSection>
+            {selectedReminder.id && (
+              <DeleteReminderButton type="button" onClick={deleteReminder}>
+                <FiTrash2 size={30} />
+              </DeleteReminderButton>
+            )}
             <DialogButton type="submit" isSave>
               Save
             </DialogButton>

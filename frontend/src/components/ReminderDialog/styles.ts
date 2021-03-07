@@ -1,6 +1,6 @@
 import { DialogContent } from '@material-ui/core';
 import styled, { css } from 'styled-components';
-import { $black, $blue, $red } from '../../styles/colors';
+import { $black, $blue, $gray, $red } from '../../styles/colors';
 
 interface IDialogButtonProps {
   isCancel?: boolean;
@@ -8,12 +8,24 @@ interface IDialogButtonProps {
 }
 
 export const ReminderDialogContent = styled(DialogContent)`
-  background-color: #d1d1d1;
+  background-color: ${$gray};
   color: ${$black};
   display: flex;
   flex-direction: column;
-  height: 418px;
+  height: 470px;
   width: 457px;
+`;
+
+export const CloseDialogButton = styled.button`
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 export const ReminderDialogHeader = styled.div`
@@ -45,7 +57,7 @@ export const ErrorMessage = styled.p`
 export const ReminderDialogDetails = styled.div`
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   border-bottom: 1px solid;
 
   span {
@@ -74,9 +86,20 @@ export const InputElement = styled.input`
   }
 `;
 
+export const ColorPicker = styled.div`
+  align-items: center;
+  display: flex;
+  margin-bottom: 12px;
+
+  svg {
+    margin-right: 16px;
+  }
+`;
+
 export const ColorInput = styled.input`
   -webkit-appearance: none;
   border: none;
+  cursor: pointer;
   width: 32px;
   height: 32px;
   background-color: transparent;
@@ -89,6 +112,10 @@ export const ColorInput = styled.input`
   &::-webkit-color-swatch {
     border: none;
     border-radius: 50%;
+  }
+
+  &:hover {
+    opacity: 0.9;
   }
 `;
 
@@ -159,4 +186,13 @@ export const DialogButton = styled.button<IDialogButtonProps>`
     css`
       background-color: ${$blue};
     `}
+`;
+
+export const DeleteReminderButton = styled.button`
+  border: none;
+  background-color: transparent;
+  margin-right: 10px;
+  &:hover {
+    opacity: 0.8;
+  }
 `;
