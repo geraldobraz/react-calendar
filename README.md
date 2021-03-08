@@ -1,76 +1,55 @@
-# Web Template Project
+# React Calendar
+<h1 align="center"><img src="frontend/.github/logo.png"/></h1>
 
-*This repository contains a template for nodeJS, ReactJs projects using TypeScript.*
+<div align="center">
+
+   ![React Badge](https://img.shields.io/badge/-React.js-7bdcfe)
+</div>
+
+<p align="center">A calendar created using react, with the new version 16 features and typescript</p>
 
 ## 🚀 Getting Started
-
-### 🚨 Prerequisites
-
-#### MacOS
-Install Homebrew
-
-```
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-```
-Install tools
-
-```
-brew install yarn
-brew install node
-```
-
-#### Ubuntu
-Configuring repository
-
-```
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-```
-Install tools
-
-```
-sudo apt update
-sudo apt install yarn
-sudo apt install nodejs
-```
-
-#### Windows
-Install [Chocolatey](https://chocolatey.org/install)
-
-Install tools
-```
-choco install yarn
-choco install nodejs
-```
-
-
 ### 📥 Installing dependencies
 
-Inside the project's folder, run:
+Inside the frontend folder, run:
 
 ```
 yarn
 ```
 
-### 🏎 Running application
-Go to the backend folder and run the following command to start the backend server
+### 🔩 External APIs
+We are using a external API to fetch the weather forecast on reminders. We are using the [Open Weather](https://openweathermap.org/api), to properly use this api you must follow the steps below:
+
+- Create a `.env` file in the same directory of `.env.example`.
+- Copy the content inside `.env.example` in the `.env` file. 
+- Now you must create an account on Open Weather site, so with that you will be able to create keys to use to fetch data.
+- Paste your key in the `REACT_APP_WEATHER_API_KEY` property in the `.env` file:
 ```
-yarn dev:server
+REACT_APP_WEATHER_API_KEY=<YOUR_KEY>
 ```
 
+### 🏎 Running application
 Go to the frontend folder and run the following command to start the web application
 ```
 yarn start
 ```
 
-
+### 🔬 Running tests
+To run the tests go to the frontend folder and run the following command
+```
+yarn test
+```
 ## 🛠 Built With
 
-* [Node](https://nodejs.org/) - JavaScript runtime environment
-* [ReactJs](https://reactjs.org/) - A declarative, efficient, and flexible JavaScript library for building user interfaces.
-* [Yarn](https://yarnpkg.com/) - Package Manager
-* [Express](https://expressjs.com/) - Web framework used NodeJS
-* [TypeScript](https://www.typescriptlang.org/) - Typed Superset of JavaScript - used as a development dependency
+* [ReactJs](https://reactjs.org/)
+* [Yarn](https://yarnpkg.com/)
+* [TypeScript](https://www.typescriptlang.org/)
+* [axios](https://github.com/axios/axios)
+* [styled-components](https://styled-components.com/)
+* [date-fns](https://date-fns.org/)
+* [Material UI](https://material-ui.com/)
+* [Open Weather](https://openweathermap.org/api)
+
 
 ## 🎖 Author
 * **Geraldo Braz** - *Initial work* - [@geraldobraz](https://github.com/geraldobraz)
