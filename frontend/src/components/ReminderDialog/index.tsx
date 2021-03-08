@@ -180,6 +180,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
             <ReminderTitle>
               <InputElement
                 name="title"
+                aria-label="title"
                 placeholder="New Event"
                 defaultValue={selectedReminder.title}
                 ref={register}
@@ -194,6 +195,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
             <InputElement
               type="date"
               name="date"
+              aria-label="date"
               placeholder=""
               defaultValue={dateInput}
               onChange={e => setDateInput(e.target.value)}
@@ -202,6 +204,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
             <InputElement
               type="time"
               name="time"
+              aria-label="time"
               defaultValue={timeInput}
               onChange={e => setTimeInput(e.target.value)}
               ref={register}
@@ -211,6 +214,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
               <InputElement
                 name="city"
                 placeholder="Eg. New York City"
+                aria-label="city"
                 defaultValue={cityInput}
                 onChange={e => setCityInput(e.target.value)}
                 ref={register}
@@ -221,6 +225,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
               <ColorInput
                 name="color"
                 type="color"
+                aria-label="color"
                 defaultValue={selectedReminder.color}
                 ref={register}
               />
