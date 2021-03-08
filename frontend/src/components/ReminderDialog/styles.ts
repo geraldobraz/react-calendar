@@ -1,11 +1,7 @@
 import { DialogContent } from '@material-ui/core';
-import styled, { css } from 'styled-components';
-import { $black, $blue, $gray, $red } from '../../styles/colors';
-
-interface IDialogButtonProps {
-  isCancel?: boolean;
-  isSave?: boolean;
-}
+import { shade } from 'polished';
+import styled from 'styled-components';
+import { $black, $gray, $red, $white } from '../../styles/colors';
 
 export const ReminderDialogContent = styled(DialogContent)`
   background-color: ${$gray};
@@ -171,27 +167,27 @@ export const ActionSection = styled.div`
   justify-content: flex-end;
 `;
 
-export const DialogButton = styled.button<IDialogButtonProps>`
+export const DialogButton = styled.button`
   border-radius: 10px;
   border: none;
   height: 42px;
   margin: 5px;
   width: 100px;
+  background-color: #3f50b5;
+  color: ${$white};
 
   &:hover {
-    opacity: 0.8;
+    background-color: ${shade(0.1, '#3f50b5')};
   }
-
-  ${props =>
-    css`
-      background-color: ${$blue};
-    `}
 `;
 
 export const DeleteReminderButton = styled.button`
-  border: none;
   background-color: transparent;
-  margin-right: 10px;
+  position: absolute;
+  right: 60px;
+  top: 16px;
+  border: none;
+
   &:hover {
     opacity: 0.8;
   }

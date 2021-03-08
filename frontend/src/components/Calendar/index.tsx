@@ -11,7 +11,7 @@ import {
   startOfWeek,
   subMonths,
 } from 'date-fns';
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FiChevronLeft, FiChevronRight, FiTrash2 } from 'react-icons/fi';
 import {
   CalendarCell,
   CalendarGrid,
@@ -24,6 +24,9 @@ import {
   WeekDays,
   ReminderItem,
   Reminder,
+  RemindersList,
+  Day,
+  DeleteAllReminders,
 } from './styles';
 import { weekDays } from '../../utils/constants';
 import ReminderDialog from '../ReminderDialog';
@@ -58,7 +61,7 @@ const Calendar: React.FC = () => {
   const [selectedReminder, setSelectedReminder] = useState<IReminder>({
     fullDate: new Date(),
   } as IReminder);
-  const { getStorageByKey } = useStorage();
+  const { getStorageByKey, deleteRemindersByDate } = useStorage();
 
   const handleCreateNewReminder = useCallback((cell: ICell): void => {
     const defaultNewReminder: IReminder = {
@@ -127,6 +130,15 @@ const Calendar: React.FC = () => {
     setIsReminderDialogOpened(true);
   }, []);
 
+  const deleteAllRemindersAtDay = useCallback(
+    (e: any, day: ICell) => {
+      e.stopPropagation();
+
+      deleteRemindersByDate(day.fullDate);
+    },
+    [deleteRemindersByDate],
+  );
+
   useEffect(() => {
     const rows = createCalendarRows();
 
@@ -168,18 +180,30 @@ const Calendar: React.FC = () => {
             isWithinCurrentMonth={day.isWithinCurrentMonth}
             onClick={() => handleCreateNewReminder(day)}
           >
-            <time>{day.day}</time>
+            <Day isToday={day.isToday}>
+              <time>{day.day}</time>
+              <DeleteAllReminders
+                type="button"
+                onClick={e => deleteAllRemindersAtDay(e, day)}
+              >
+                <FiTrash2 size={20} />
+              </DeleteAllReminders>
+            </Day>
 
-            {day?.reminders &&
-              day.reminders.map(reminder => (
-                <Reminder
-                  color={reminder.color}
-                  key={reminder.id}
-                  onClick={e => onReminderClick(e, reminder)}
-                >
-                  {reminder.title} - {reminder.time}
-                </Reminder>
-              ))}
+            <RemindersList>
+              {day?.reminders &&
+                day.reminders.map(reminder => (
+                  <ReminderItem key={reminder.id}>
+                    <Reminder
+                      color={reminder.color}
+                      onClick={e => onReminderClick(e, reminder)}
+                    >
+                      <span>{reminder.title}</span>
+                      <time>{reminder.time}</time>
+                    </Reminder>
+                  </ReminderItem>
+                ))}
+            </RemindersList>
           </CalendarCell>
         ))}
       </CalendarGrid>

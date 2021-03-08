@@ -88,7 +88,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
   const { register, handleSubmit, errors } = useForm<IReminder>({
     resolver: yupResolver(schema),
   });
-  const { setItem, deleteReminderById } = useStorage();
+  const { setReminder, deleteReminderById, editReminder } = useStorage();
   const [weather, setWeather] = useState<IForecast>();
   const [dateInput, setDateInput] = useState<string>(selectedReminder.date);
   const [timeInput, setTimeInput] = useState<string>(selectedReminder.time);
@@ -108,9 +108,6 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
       color,
       id = selectedReminder.id,
     }: IReminder) => {
-      const [year, month, day] = date.split('-');
-      const formattedDate = `${day}${month}${year}`;
-
       const newReminder: IReminder = {
         title: title || 'New event',
         city,
@@ -120,10 +117,16 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
         date,
         id: id || uuid(),
       };
-      setItem(formattedDate, newReminder);
+
+      if (id) {
+        editReminder(newReminder, selectedReminder);
+      } else {
+        setReminder(newReminder);
+      }
+
       onClose();
     },
-    [onClose, selectedReminder.id, setItem],
+    [editReminder, onClose, selectedReminder, setReminder],
   );
 
   const findForecastWeather = useCallback(
@@ -185,8 +188,19 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
                 defaultValue={selectedReminder.title}
                 ref={register}
               />
-              <ErrorMessage>{errors.title?.message}</ErrorMessage>
+              <ErrorMessage aria-label="error-message">
+                {errors.title?.message}
+              </ErrorMessage>
             </ReminderTitle>
+            {selectedReminder.id && (
+              <DeleteReminderButton
+                aria-label="delete"
+                type="button"
+                onClick={deleteReminder}
+              >
+                <FiTrash2 size={25} />
+              </DeleteReminderButton>
+            )}
             <CloseDialogButton type="button" onClick={onClose}>
               <FiX size={30} />
             </CloseDialogButton>
@@ -242,8 +256,10 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
                   alt="sunny"
                 />
                 <TemperatureContainer>
-                  <Temperature>{weather.main.temp}˚C</Temperature>
-                  <TemperatureDetails>
+                  <Temperature aria-label="temperature">
+                    {weather.main.temp}˚C
+                  </Temperature>
+                  <TemperatureDetails aria-label="weather-description">
                     {weather.weather[0].description}
                   </TemperatureDetails>
                 </TemperatureContainer>
@@ -251,14 +267,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
             </WeatherForecastArea>
           )}
           <ActionSection>
-            {selectedReminder.id && (
-              <DeleteReminderButton type="button" onClick={deleteReminder}>
-                <FiTrash2 size={30} />
-              </DeleteReminderButton>
-            )}
-            <DialogButton type="submit" isSave>
-              Save
-            </DialogButton>
+            <DialogButton type="submit">Save</DialogButton>
           </ActionSection>
         </form>
       </ReminderDialogContent>

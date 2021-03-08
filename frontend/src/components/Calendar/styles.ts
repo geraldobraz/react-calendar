@@ -1,3 +1,4 @@
+import { shade } from 'polished';
 import styled, { css } from 'styled-components';
 import {
   $black,
@@ -15,6 +16,10 @@ interface ICellProps {
   isToday: boolean;
   isWeekend: boolean;
   isWithinCurrentMonth: boolean;
+}
+
+interface IDayProps {
+  isToday: boolean;
 }
 
 interface IReminderProps {
@@ -100,9 +105,9 @@ export const CalendarGrid = styled.div`
 `;
 
 export const CalendarCell = styled.div<ICellProps>`
-  border: 1px solid ${$black};
+  border: 1px solid #716f6c;
   cursor: pointer;
-  background: #ffffff;
+  background: ${$white};
   outline: none;
   display: flex;
   height: 8em;
@@ -124,6 +129,23 @@ export const CalendarCell = styled.div<ICellProps>`
       color: ${$lightGray};
     `}
 
+  &:last-child {
+    border-right: none;
+  }
+
+  &:hover {
+    border: 2px solid ${$blue};
+  }
+`;
+
+export const Day = styled.div<IDayProps>`
+  height: 60px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  max-height: 60px;
+  min-width: 60px;
+
   ${props =>
     props.isToday &&
     css`
@@ -138,42 +160,52 @@ export const CalendarCell = styled.div<ICellProps>`
         width: 25px;
       }
     `}
-
-  &:last-child {
-    border-right: none;
-  }
+`;
+export const DeleteAllReminders = styled.button`
+  margin-right: 10px;
+  border: none;
+  background: transparent;
+  color: #999;
+  opacity: 0;
+  transition: opacity 0.5s;
 
   &:hover {
-    border: 2px solid ${$blue};
+    opacity: 1;
   }
 `;
 
-export const RemindersList = styled.ul``;
+export const RemindersList = styled.ul`
+  height: 100px;
+  overflow: scroll;
+`;
 
 export const ReminderItem = styled.li`
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 2px;
-  border: none;
-
-  ${props => css`
-    background-color: ${props.color};
-  `}
+  padding: 0 3px;
 `;
 
 export const Reminder = styled.button<IReminderProps>`
-  display: flex;
-  width: 100%;
-  overflow: hidden;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 2px;
+  border-radius: 5px;
   border: none;
+  display: flex;
+  height: 20px;
+  justify-content: space-between;
+  margin-bottom: 2px;
+  overflow: hidden;
+  padding: 0 10px;
+  width: 100%;
+
+  time {
+    margin: 0px;
+  }
 
   ${props => css`
     background-color: ${props.color};
   `}
+
+  &:hover {
+    ${props => css`
+      background-color: ${shade(0.1, props.color)};
+    `}
+  }
 `;
