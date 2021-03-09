@@ -19,7 +19,7 @@ interface StorageContextData {
   storage: IHash;
   getStorage(): IHash;
   getStorageByKey(key: string): IReminder[];
-  setReminder(reminder: IReminder): void;
+  addReminder(reminder: IReminder): void;
   editReminder(newReminder: IReminder, previousReminder: IReminder): void;
   deleteReminderById(id: string, date: string): void;
   deleteRemindersByDate(date: Date): void;
@@ -53,110 +53,90 @@ const StorageProvider: React.FC = ({ children }) => {
     return hash[key];
   };
 
+  const addOrUpdate = (key: string, reminder: IReminder): IReminder[] => {
+    let newArray = hash[key];
+
+    if (newArray) {
+      const filteredReminderIdx = newArray.findIndex(f => f.id === reminder.id);
+
+      if (filteredReminderIdx !== -1) {
+        newArray[filteredReminderIdx] = reminder;
+      } else {
+        newArray = newArray.concat(reminder);
+      }
+    } else {
+      newArray = [reminder];
+    }
+
+    newArray.sort((d1, d2) => {
+      if (d1.time < d2.time) return -1;
+      if (d1.time > d2.time) return 1;
+      return 0;
+    });
+
+    return newArray;
+  };
+
+  const deleteById = (key: string, id: string): IReminder[] => {
+    return hash[key].filter(reminder => reminder.id !== id);
+  };
+
+  const addReminder = (reminder: IReminder): void => {
+    const key = formatDate(reminder.date);
+
+    const newHash = hash;
+    newHash[key] = addOrUpdate(key, reminder);
+
+    localStorage.setItem('@Calendar-Reminders', JSON.stringify(newHash));
+    setHash({ ...hash, ...newHash });
+  };
+
   const editReminder = (
     newReminder: IReminder,
     previousReminder: IReminder,
   ): void => {
-    const newData: IHash = {};
+    const newHash = hash;
 
     if (newReminder.date !== previousReminder.date) {
       const key = formatDate(previousReminder.date);
-      const reminders = hash[key].filter(
-        reminder => reminder.id !== previousReminder.id,
-      );
-      newData[key] = reminders;
+      const reminders = deleteById(key, previousReminder.id);
+      if (reminders.length === 0) {
+        delete newHash[key];
+      } else {
+        newHash[key] = reminders;
+      }
     }
 
     const key = formatDate(newReminder.date);
+    newHash[key] = addOrUpdate(key, newReminder);
 
-    let dataCopy = hash[key];
-
-    if (dataCopy) {
-      const filteredReminderIdx = dataCopy.findIndex(
-        f => f.id === newReminder.id,
-      );
-
-      if (filteredReminderIdx !== -1) {
-        dataCopy[filteredReminderIdx] = newReminder;
-      } else {
-        dataCopy = dataCopy.concat(newReminder);
-      }
-    } else {
-      dataCopy = [newReminder];
-    }
-
-    dataCopy.sort((d1, d2) => {
-      if (d1.time < d2.time) return -1;
-      if (d1.time > d2.time) return 1;
-      return 0;
-    });
-
-    newData[key] = dataCopy;
-
-    localStorage.setItem(
-      '@Calendar-Reminders',
-      JSON.stringify({ ...hash, ...newData }),
-    );
-    setHash({ ...hash, ...newData });
-  };
-
-  const setReminder = (reminder: IReminder): void => {
-    const key = formatDate(reminder.date);
-
-    let dataCopy = hash[key];
-    if (dataCopy) {
-      const filteredReminderIdx = dataCopy.findIndex(f => f.id === reminder.id);
-
-      if (filteredReminderIdx !== -1) {
-        dataCopy[filteredReminderIdx] = reminder;
-      } else {
-        dataCopy = dataCopy.concat(reminder);
-      }
-    } else {
-      dataCopy = [reminder];
-    }
-
-    dataCopy.sort((d1, d2) => {
-      if (d1.time < d2.time) return -1;
-      if (d1.time > d2.time) return 1;
-      return 0;
-    });
-
-    const newData: IHash = {
-      [key]: dataCopy,
-    };
-    localStorage.setItem(
-      '@Calendar-Reminders',
-      JSON.stringify({ ...hash, ...newData }),
-    );
-    setHash({ ...hash, ...newData });
+    localStorage.setItem('@Calendar-Reminders', JSON.stringify(newHash));
+    setHash({ ...hash, ...newHash });
   };
 
   const deleteReminderById = (id: string, date: string): void => {
     const key = formatDate(date);
 
-    const reminders = hash[key].filter(reminder => reminder.id !== id);
+    const newHash = hash;
+    const reminders = deleteById(key, id);
+    if (reminders.length === 0) {
+      delete newHash[key];
+    } else {
+      newHash[key] = reminders;
+    }
 
-    const newData: IHash = {
-      [key]: reminders,
-    };
-    localStorage.setItem(
-      '@Calendar-Reminders',
-      JSON.stringify({ ...hash, ...newData }),
-    );
-    setHash({ ...hash, ...newData });
+    localStorage.setItem('@Calendar-Reminders', JSON.stringify(newHash));
+    setHash({ ...hash, ...newHash });
   };
 
   const deleteRemindersByDate = (date: Date): void => {
     const key = format(date, 'ddMMyyyy');
+
     const copyHash = hash;
     delete copyHash[key];
 
-    localStorage.setItem(
-      '@Calendar-Reminders',
-      JSON.stringify({ ...hash, ...copyHash }),
-    );
-    setHash({ ...hash, ...copyHash });
+    localStorage.setItem('@Calendar-Reminders', JSON.stringify(copyHash));
+    setHash({ ...hash, ...copyHash});
   };
 
   return (
@@ -165,7 +145,7 @@ const StorageProvider: React.FC = ({ children }) => {
         storage: hash,
         getStorage,
         getStorageByKey,
-        setReminder,
+        addReminder,
         editReminder,
         deleteReminderById,
         deleteRemindersByDate,

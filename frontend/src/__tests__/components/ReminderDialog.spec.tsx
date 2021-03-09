@@ -14,7 +14,7 @@ interface IReminder {
   color: string;
 }
 
-const mockSetItem = jest.fn();
+const mockAddItem = jest.fn();
 const mockEditItem = jest.fn();
 const mockDeleteItem = jest.fn();
 const weatherApiMock = new MockAdapter(weatherApi);
@@ -54,7 +54,7 @@ const apiResponse = {
 jest.mock('../../hooks/storage', () => {
   return {
     useStorage: () => ({
-      setReminder: mockSetItem,
+      addReminder: mockAddItem,
       editReminder: mockEditItem,
       deleteReminderById: mockDeleteItem,
     }),
@@ -69,7 +69,7 @@ jest.mock('uuid', () => {
 
 describe('ReminderDialog Component', () => {
   beforeEach(() => {
-    mockSetItem.mockClear();
+    mockAddItem.mockClear();
     mockEditItem.mockClear();
     mockDeleteItem.mockClear();
   });
@@ -132,7 +132,7 @@ describe('ReminderDialog Component', () => {
     fireEvent.click(saveButton);
 
     await wait(() => {
-      expect(mockSetItem).toHaveBeenCalledWith(
+      expect(mockAddItem).toHaveBeenCalledWith(
         expect.objectContaining(reminder),
       );
     });
@@ -240,18 +240,16 @@ describe('ReminderDialog Component', () => {
     const bigInput = 'Bacon ipsum dolor amet swine ham';
 
     const titleInput = getByLabelText('title');
-    const errorMessage = getByLabelText('error-message');
     const saveButton = getByText('Save');
 
     fireEvent.change(titleInput, { target: { value: bigInput } });
 
     fireEvent.click(saveButton);
 
-    expect(errorMessage).toBeTruthy();
-
     wait(() => {
+      expect(getByLabelText('error-message')).toBeTruthy();
       expect(mockEditItem).not.toHaveBeenCalled();
-      expect(mockSetItem).not.toHaveBeenCalled();
+      expect(mockAddItem).not.toHaveBeenCalled();
     });
   });
 

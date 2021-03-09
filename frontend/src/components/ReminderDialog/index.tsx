@@ -86,7 +86,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
   const { register, handleSubmit, errors } = useForm<IReminder>({
     resolver: yupResolver(schema),
   });
-  const { setReminder, deleteReminderById, editReminder } = useStorage();
+  const { addReminder, deleteReminderById, editReminder } = useStorage();
   const [weather, setWeather] = useState<IForecast>();
   const [dateInput, setDateInput] = useState<string>(selectedReminder.date);
   const [timeInput, setTimeInput] = useState<string>(selectedReminder.time);
@@ -119,12 +119,12 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
       if (id) {
         editReminder(newReminder, selectedReminder);
       } else {
-        setReminder(newReminder);
+        addReminder(newReminder);
       }
 
       onClose();
     },
-    [editReminder, onClose, selectedReminder, setReminder],
+    [editReminder, onClose, selectedReminder, addReminder],
   );
 
   const findForecastWeather = useCallback(
