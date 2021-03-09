@@ -1,11 +1,10 @@
 import { shade } from 'polished';
 import styled, { css } from 'styled-components';
 import {
-  $black,
   $blue,
   $darkBlue,
-  $lightestGray,
   $lightGray,
+  $darkGray,
   $medBlue,
   $white,
   $whiteCultured,
@@ -27,16 +26,23 @@ interface IReminderProps {
 }
 
 export const Container = styled.div`
-  border: 1px solid;
+  margin-bottom: 50px;
   min-width: 850px;
   width: 100%;
 `;
 
 export const CalendarHeader = styled.div`
-  border-bottom: 1px solid;
   display: flex;
   height: 80px;
   justify-content: center;
+  border-radius: 10px 10px 0 0;
+  box-shadow: 0 -5px 10px -5px #333;
+  background-color: ${$darkBlue};
+  color: ${$white};
+
+  svg {
+    color: ${$white};
+  }
 `;
 
 export const MonthSelectorLeft = styled.button`
@@ -45,6 +51,10 @@ export const MonthSelectorLeft = styled.button`
   border: none;
   display: flex;
   justify-content: flex-end;
+
+  svg:hover {
+    color: ${shade(0.2, $white)};
+  }
 `;
 
 export const CurrentMonth = styled.time`
@@ -53,7 +63,7 @@ export const CurrentMonth = styled.time`
   font-size: 24px;
   font-weight: 500;
   justify-content: center;
-  margin: 0 120px;
+  margin: 0 50px;
   width: 200px;
 `;
 
@@ -63,55 +73,56 @@ export const MonthSelectorRight = styled.button`
   border: none;
   display: flex;
   justify-content: flex-start;
+
+  svg:hover {
+    color: ${shade(0.2, $white)};
+  }
 `;
 
 export const WeekDays = styled.div`
   align-items: center;
-  border-bottom: 1px solid;
+  background: ${$darkBlue};
+  opacity: 0.8;
+  border: transparent;
+  color: ${$whiteCultured};
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   font-size: 20px;
   font-weight: 500;
+  height: 40px;
   margin: 0;
   padding: 0;
   width: 100%;
-  background: ${$darkBlue};
-  color: ${$whiteCultured};
-  border: transparent;
 `;
 
 export const WeekDay = styled.div`
-  border-right: 1px solid ${$black};
+  color: ${$white};
   flex-basis: 0;
   flex-grow: 1;
   justify-content: center;
   max-width: 100%;
   padding: 5px;
   text-align: center;
-
-  &:last-child {
-    border-right: none;
-  }
 `;
 
 export const CalendarGrid = styled.div`
+  border-right: 0.5px solid #716f6c;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-
-  &:last-child {
-    border-right: none;
-  }
+  box-shadow: 11px 10px 5px 0 rgb(0 0 0 / 10%);
 `;
 
 export const CalendarCell = styled.div<ICellProps>`
-  border: 1px solid #716f6c;
-  cursor: pointer;
   background: ${$white};
-  outline: none;
+  border-bottom: 0.5px solid #716f6c;
+  border-left: 0.5px solid #716f6c;
+  cursor: pointer;
   display: flex;
-  height: 8em;
   flex-direction: column;
+  height: 8em;
+  outline: none;
+  overflow: hidden;
 
   time {
     margin: 10px 0 10px 10px;
@@ -120,18 +131,14 @@ export const CalendarCell = styled.div<ICellProps>`
   ${props =>
     props.isWeekend &&
     css`
-      background-color: ${$lightestGray};
+      background-color: ${$lightGray};
     `}
 
   ${props =>
     !props.isWithinCurrentMonth &&
     css`
-      color: ${$lightGray};
+      color: ${$darkGray};
     `}
-
-  &:last-child {
-    border-right: none;
-  }
 
   &:hover {
     border: 2px solid ${$blue};
@@ -153,7 +160,7 @@ export const Day = styled.div<IDayProps>`
         align-items: center;
         background-color: ${$medBlue};
         border-radius: 50%;
-        color: #ffffff;
+        color: ${$white};
         display: flex;
         height: 25px;
         justify-content: center;
@@ -165,7 +172,7 @@ export const DeleteAllReminders = styled.button`
   margin-right: 10px;
   border: none;
   background: transparent;
-  color: #999;
+  color: ${$darkGray};
   opacity: 0;
   transition: opacity 0.5s;
 
@@ -194,6 +201,12 @@ export const Reminder = styled.button<IReminderProps>`
   overflow: hidden;
   padding: 0 10px;
   width: 100%;
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
   time {
     margin: 0px;

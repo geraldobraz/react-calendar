@@ -1,7 +1,16 @@
 import styled from 'styled-components';
-import { $blue } from '../../styles/colors';
+import { $darkBlue } from '../../styles/colors';
 
 export const Informations = styled.div`
+  display: flex;
+  margin: 10px 0;
+  img {
+    height: 80px;
+    width: 60px;
+  }
+`;
+
+export const Welcome = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
@@ -15,6 +24,6 @@ export const Informations = styled.div`
 
   p {
     font-size: 18px;
-    color: ${$blue};
+    color: ${$darkBlue};
   }
 `;

@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { $black, $whiteCultured } from './colors';
+import { $black, $lightGray } from './colors';
 
 export default createGlobalStyle`
   * {
@@ -9,7 +9,8 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    background-color: ${$whiteCultured};
+    margin: 0 20px;
+    background-color: ${$lightGray};
     color: ${$black};
     -webkit-font-smoothing: antialiased;
   }

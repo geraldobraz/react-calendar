@@ -8,6 +8,11 @@
 
 <p align="center">A calendar created using react, with the new version 16 features and typescript</p>
 
+<p align="center">
+    <img src="frontend/.github/demo.gif">
+</p>
+
+
 ## 🚀 Getting Started
 ### 📥 Installing dependencies
 
@@ -39,6 +44,12 @@ To run the tests go to the frontend folder and run the following command
 ```
 yarn test
 ```
+### 📷 Screenshots
+<p align="center">
+    <img src="frontend/.github/calendar-view.png">
+    <img src="frontend/.github/dialog-view.png">
+</p>
+
 ## 🛠 Built With
 
 * [ReactJs](https://reactjs.org/)
@@ -57,3 +68,5 @@ yarn test
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+
+<div align="center">Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

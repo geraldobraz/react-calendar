@@ -1,11 +1,17 @@
-import { DialogContent } from '@material-ui/core';
+import { DialogContent, Dialog as MaterialDialog } from '@material-ui/core';
 import { shade } from 'polished';
 import styled from 'styled-components';
-import { $black, $gray, $red, $white } from '../../styles/colors';
+import { $black, $gray, $red, $white, $primaryBlue } from '../../styles/colors';
+
+export const Dialog = styled(MaterialDialog)`
+  div.MuiPaper-root {
+    background-color: ${$gray};
+    color: ${$black};
+    border-radius: 10px;
+  }
+`;
 
 export const ReminderDialogContent = styled(DialogContent)`
-  background-color: ${$gray};
-  color: ${$black};
   display: flex;
   flex-direction: column;
   height: 470px;
@@ -15,29 +21,43 @@ export const ReminderDialogContent = styled(DialogContent)`
 export const CloseDialogButton = styled.button`
   background-color: transparent;
   border: none;
-  position: absolute;
-  right: 16px;
-  top: 16px;
 
   &:hover {
     opacity: 0.8;
   }
 `;
 
+export const DeleteReminderButton = styled.button`
+  background-color: transparent;
+  border: none;
+  margin: 0 20px;
+
+  svg {
+    opacity: 0.7;
+  }
+
+  &:hover {
+    opacity: 0.6;
+  }
+`;
+
+export const Buttons = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 export const ReminderDialogHeader = styled.div`
   align-items: center;
   display: flex;
-  font-size: 36px;
   justify-content: space-between;
-  margin-bottom: 18px;
+  margin-bottom: 40px;
 `;
 
 export const ReminderTitle = styled.div`
   align-items: center;
   display: flex;
   flex-direction: column;
-  font-size: 36px;
-  width: 90%;
+  width: 83%;
 
   input {
     margin: 0;
@@ -45,16 +65,18 @@ export const ReminderTitle = styled.div`
 `;
 
 export const ErrorMessage = styled.p`
+  border-top: 1px solid;
   color: ${$red};
   font-size: 15px;
-  border-top: 1px solid;
+  transition: border-top 0.5s;
+  width: 100%;
 `;
 
 export const ReminderDialogDetails = styled.div`
+  border-bottom: 1px solid;
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-  border-bottom: 1px solid;
 
   span {
     margin-bottom: 0;
@@ -62,22 +84,23 @@ export const ReminderDialogDetails = styled.div`
 `;
 
 export const InputElement = styled.input`
+  align-items: flex-start;
   background: transparent;
   border: none;
   color: ${$black};
   display: flex;
-  font-size: 24px;
-  margin-bottom: 16px;
-  width: 100%;
   display: flex;
   flex-direction: row-reverse;
-  align-items: flex-start;
+  font-size: 24px;
+  margin-bottom: 20px;
+  width: 100%;
 
   &::-webkit-calendar-picker-indicator {
-    margin-right: 16px;
-    margin-left: 0;
-    padding: 0;
+    cursor: pointer;
     height: 30px;
+    margin-left: 0;
+    margin-right: 16px;
+    padding: 0;
     width: 30px;
   }
 `;
@@ -85,7 +108,7 @@ export const InputElement = styled.input`
 export const ColorPicker = styled.div`
   align-items: center;
   display: flex;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 
   svg {
     margin-right: 16px;
@@ -108,10 +131,6 @@ export const ColorInput = styled.input`
   &::-webkit-color-swatch {
     border: none;
     border-radius: 50%;
-  }
-
-  &:hover {
-    opacity: 0.9;
   }
 `;
 
@@ -165,30 +184,19 @@ export const TemperatureDetails = styled.div`
 export const ActionSection = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin: 5px;
 `;
 
 export const DialogButton = styled.button`
+  background-color: ${$primaryBlue};
   border-radius: 10px;
   border: none;
+  color: ${$white};
   height: 42px;
   margin: 5px;
   width: 100px;
-  background-color: #3f50b5;
-  color: ${$white};
 
   &:hover {
-    background-color: ${shade(0.1, '#3f50b5')};
-  }
-`;
-
-export const DeleteReminderButton = styled.button`
-  background-color: transparent;
-  position: absolute;
-  right: 60px;
-  top: 16px;
-  border: none;
-
-  &:hover {
-    opacity: 0.8;
+    background-color: ${shade(0.1, $primaryBlue)};
   }
 `;

@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Dialog } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { FiMapPin, FiTrash2, FiX } from 'react-icons/fi';
 import { BiColorFill } from 'react-icons/bi';
@@ -9,10 +8,12 @@ import * as Yup from 'yup';
 import { closestTo, isEqual, isSameDay } from 'date-fns';
 import {
   ActionSection,
+  Buttons,
   CloseDialogButton,
   ColorInput,
   ColorPicker,
   DeleteReminderButton,
+  Dialog,
   DialogButton,
   ErrorMessage,
   InputElement,
@@ -80,10 +81,7 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
   selectedReminder,
 }) => {
   const schema = Yup.object().shape({
-    title: Yup.string().max(
-      30,
-      'The maximum length for this field is 30 characters.',
-    ),
+    title: Yup.string().max(30, 'You can not use more than 30 characters.'),
   });
   const { register, handleSubmit, errors } = useForm<IReminder>({
     resolver: yupResolver(schema),
@@ -177,8 +175,8 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
 
   return (
     <Dialog onClose={onClose} aria-labelledby="reminder-dialog" open={open}>
-      <ReminderDialogContent>
-        <form onSubmit={handleSubmit(onSubmitNewReminder)}>
+      <form onSubmit={handleSubmit(onSubmitNewReminder)}>
+        <ReminderDialogContent>
           <ReminderDialogHeader>
             <ReminderTitle>
               <InputElement
@@ -188,22 +186,26 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
                 defaultValue={selectedReminder.title}
                 ref={register}
               />
-              <ErrorMessage aria-label="error-message">
-                {errors.title?.message}
-              </ErrorMessage>
+              {errors.title && (
+                <ErrorMessage aria-label="error-message">
+                  {errors.title?.message}
+                </ErrorMessage>
+              )}
             </ReminderTitle>
-            {selectedReminder.id && (
-              <DeleteReminderButton
-                aria-label="delete"
-                type="button"
-                onClick={deleteReminder}
-              >
-                <FiTrash2 size={25} />
-              </DeleteReminderButton>
-            )}
-            <CloseDialogButton type="button" onClick={onClose}>
-              <FiX size={30} />
-            </CloseDialogButton>
+            <Buttons>
+              {selectedReminder.id && (
+                <DeleteReminderButton
+                  aria-label="delete"
+                  type="button"
+                  onClick={deleteReminder}
+                >
+                  <FiTrash2 size={25} />
+                </DeleteReminderButton>
+              )}
+              <CloseDialogButton type="button" onClick={onClose}>
+                <FiX size={30} />
+              </CloseDialogButton>
+            </Buttons>
           </ReminderDialogHeader>
           <ReminderDialogDetails>
             <InputElement
@@ -266,11 +268,11 @@ const ReminderDialog: React.FC<IReminderDialogProps> = ({
               </Weather>
             </WeatherForecastArea>
           )}
-          <ActionSection>
-            <DialogButton type="submit">Save</DialogButton>
-          </ActionSection>
-        </form>
-      </ReminderDialogContent>
+        </ReminderDialogContent>
+        <ActionSection>
+          <DialogButton type="submit">Save</DialogButton>
+        </ActionSection>
+      </form>
     </Dialog>
   );
 };
