@@ -16,9 +16,10 @@
 ## 🚀 Getting Started
 ### 📥 Installing dependencies
 
-Inside the frontend folder, run:
+Run:
 
 ```
+cd frontend
 yarn
 ```
 

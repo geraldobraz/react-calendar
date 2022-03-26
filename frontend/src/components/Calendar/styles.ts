@@ -124,6 +124,7 @@ export const CalendarCell = styled.div<ICellProps>`
   outline: none;
   overflow: hidden;
 
+
   time {
     margin: 10px 0 10px 10px;
   }
@@ -184,6 +185,13 @@ export const DeleteAllReminders = styled.button`
 export const RemindersList = styled.ul`
   height: 100px;
   overflow: scroll;
+
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const ReminderItem = styled.li`
